@@ -1,0 +1,5 @@
+Magazine one, a1, a2, a3., company one, 11, 1001
+Magazine two, a1., company two, 22, 1002
+Magazine three, a1, a2., company three, 33, 1003
+Magazine four, a1, a2, a3., company four, 44, 1004
+Magazine five, a1, a2., company five, 55, 1005

@@ -1,0 +1,5 @@
+newspaper one, company one, 01-09-2023
+newspaper two, company two, 02-09-2023
+newspaper three, company three, 03-09-2023
+newspaper four, company four, 04-09-2023
+newspaper five, company five, 05-09-2023
