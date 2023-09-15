@@ -7,10 +7,11 @@ import java.util.*;
 public class l215819_Library_PartF {
 
     public interface Configuration {
-        void ViewAllItemsCon();
         void AddItemCon();
         void EditItemCon(int id);
         void DeleteItemCon(int id);
+        void ViewAllCon();
+        void ViewAllItemsCon();
         void ViewItemByIdCon(int id);
     }
 
@@ -39,9 +40,6 @@ public class l215819_Library_PartF {
             e.printStackTrace();
         }
         }
-        public void ViewAllItems() {
-            ViewAllItemsCon();
-        }
         public void AddItem(LibraryItem item) {
             item.AddItemCon();
         }
@@ -50,6 +48,12 @@ public class l215819_Library_PartF {
         }
         public void DeleteItem(int id) {
             DeleteItemCon(id);
+        }
+        public void ViewAll(LibraryItem item) {
+            item.ViewAllCon();
+        }
+        public void ViewAllItems() {
+            ViewAllItemsCon();
         }
         public void ViewItemById(int id) {
             ViewItemByIdCon(id);
@@ -239,11 +243,76 @@ public class l215819_Library_PartF {
             System.out.println("This item has been deleted: "+item);
         }
         @Override
+        public void ViewAllCon() {
+            System.out.println("Generic View All Items Function");
+        }
+        @Override
         public void ViewItemByIdCon(int id) {
             if (id == 0 || id > Index)
             System.out.println("ID not found.");
             else
             System.out.println(Array[id-1]);
+        }
+        public void HotPicks() {
+            String [] HotPicksArray = new String[Index];
+            for (int m = 0; m<Index; m++){
+            HotPicksArray[m] = Array[m];
+            }
+            for (int i = 0; i<Index-1; i++) {
+                for (int j = i; j<Index; j++) {
+                    int popCnt1 = getPopularityCount(HotPicksArray[i]);
+                    int popCnt2 = getPopularityCount(HotPicksArray[j]);
+                    if (popCnt1 > popCnt2) {
+                        String temp = HotPicksArray[i];
+                        HotPicksArray[i] = HotPicksArray[j];
+                        HotPicksArray[j] = temp;
+                    }
+                }
+            }
+            for (int l = 0; l<Index; l++){
+                System.out.println(HotPicksArray[l]);
+            }
+        }
+        public int getPopularityCount(String item) {
+            int popCnt = 0;
+            char itemType = item.charAt(0);
+            if (itemType == '1'){
+                String[] words = item.split(",");
+                words[4] = words[4].trim();
+                popCnt = Integer.parseInt(words[4]);
+            }
+            else if (itemType == '2'){
+                char[] str = item.toCharArray();
+                    int a;
+                    title = "";
+                for (a=2; str[a]!=',';a++){
+                    title = title+str[a];
+                }
+                a++;
+                    author="";
+                for (; str[a]!='.';a++){
+                    author = author+str[a];
+                }
+                a++;
+                a++;
+                    publisherCompany = "";
+                for (; str[a]!=',';a++){
+                    publisherCompany = publisherCompany+str[a];
+                }
+                a++;
+                    popularityCount = 0;
+                    String temp = "";
+                for (a++; str[a]!=',';a++){
+                    temp = temp+str[a];
+                }
+                popCnt = Integer.parseInt(temp);
+            }
+            else if (itemType == '3'){
+                String[] words = item.split(",");
+                words[4] = words[4].trim();
+                popCnt = Integer.parseInt(words[4]);
+            }
+            return popCnt;
         }
     }
 
@@ -286,7 +355,30 @@ public class l215819_Library_PartF {
             String book = itemType+", "+title+", "+author+", "+year+", "+popularityCount+", "+price;
             Array[Index] = book;
             Index++;
-            System.out.println("A new book has been added to items!");
+            Borrower.BorrowArray[Borrower.idx] = "false"+", "+book;
+            Borrower.idx++;
+            System.out.println("A new book \""+title+" by "+author+"("+year+")\" has been added to items!");
+        }
+        @Override
+        public void ViewAllCon() {
+            String [] arr = new String[Index];
+            String book = "";
+            int in = 0;
+            for (int i = 0; i<Index; i++){
+                book = Array[i];
+                char it = book.charAt(0);
+                if (it == '1'){
+                arr[in] = Array[i];
+                in++;
+                }
+            }
+        if (in == 0){
+            System.out.println("No book found");
+        }
+        else {
+        for (int l = 0; l < in; l++) {
+            System.out.println(arr[l]);
+        }}
         }
     }
 
@@ -329,7 +421,30 @@ public class l215819_Library_PartF {
             String magazine = itemType+", "+title+", "+author+"., "+publisherCompany+", "+popularityCount+", "+price;
             Array[Index] = magazine;
             Index++;
-            System.out.println("A new magazine has been added to items!");
+            Borrower.BorrowArray[Borrower.idx] = "false"+", "+magazine;
+            Borrower.idx++;
+            System.out.println("A new magazine \""+title+" by "+publisherCompany+" ("+author+")\" has been added to items!");
+        }
+        @Override
+        public void ViewAllCon() {
+            String [] arr = new String[Index];
+            String magazine = "";
+            int in = 0;
+            for (int i = 0; i<Index; i++){
+                magazine = Array[i];
+                char it = magazine.charAt(0);
+                if (it == '2'){
+                arr[in] = Array[i];
+                in++;
+                }
+            }
+        if (in == 0){
+            System.out.println("No magazine found");
+        }
+        else {
+        for (int l = 0; l < in; l++) {
+            System.out.println(arr[l]);
+        }}
         }
     }
 
@@ -365,7 +480,57 @@ public class l215819_Library_PartF {
             String newspaper = itemType+", "+title+", "+publisherCompany+", "+date+", "+popularityCount;
             Array[Index] = newspaper;
             Index++;
-            System.out.println("A newspaper has been added to items!");
+            Borrower.BorrowArray[Borrower.idx] = "false"+", "+newspaper;
+            Borrower.idx++;
+            System.out.println("A newspaper \""+title+" by "+publisherCompany+"("+date+")\" has been added to items!");
+        }
+        @Override
+        public void ViewAllCon() {
+            String [] arr = new String[Index];
+            String newspaper = "";
+            int in = 0;
+            for (int i = 0; i<Index; i++){
+                newspaper = Array[i];
+                char it = newspaper.charAt(0);
+                if (it == '3'){
+                arr[in] = Array[i];
+                in++;
+                }
+            }
+        if (in == 0){
+            System.out.println("No Newspaper found");
+        }
+        else {
+        for (int l = 0; l < in; l++) {
+            System.out.println(arr[l]);
+        }}
+        }
+    }
+    public static class Borrower {
+        private String borrower = "";
+        private String BorrowStatus = "false";
+        public static int idx = LibraryItem.Index;
+        public static String [] BorrowArray = new String[100];
+        Borrower(){
+        for (int i = 0; i<idx; i++){
+            BorrowArray[i] = BorrowStatus+", "+LibraryItem.Array[i];
+        }
+        }
+        public void BorrowItem(String s, int id){
+            borrower = s;
+            if (id == 0 || id > idx)
+            System.out.println("ID not found.");
+            else{
+            String [] words = BorrowArray[id-1].split(",");
+            BorrowStatus = words[0];
+            if (BorrowStatus.equals("false")) {
+                BorrowStatus = "true";
+                BorrowArray[id-1] = BorrowStatus+", "+LibraryItem.Array[id-1];
+                System.out.println(borrower+" borrowed this item: "+LibraryItem.Array[id-1]);         
+            }
+            else {
+                System.out.println("Cannot borrow this item.\nThis item has already been borrowed.");
+            } }
         }
     }
 
@@ -374,17 +539,29 @@ public static void main(String[] args) {
         LibraryItem item = new LibraryItem();
         item.loader();
 
+        Borrower borrow = new Borrower();
+
         int id = 0;
         char ch = 'y';
             while(ch == 'y' || ch == 'Y'){
             int op = 0;
-            System.out.print("\n1. Add item\n2. Edit item\n3. Delete item\n4. View all items\n5. View item by ID\n6. Exit\nEnter your choice: ");
+            System.out.print("\n1. Hot Picks!\n2. Borrow an Item\n3. Add an Item\n4. Edit an Item\n5. Delete an Item\n6. View All Items\n7. View Item by ID\n8. Exit\nEnter your choice: ");
             if (sc.hasNext()){
             op = sc.nextInt();
             sc.nextLine();
             System.out.println();
             switch(op){
                 case 1:
+                item.HotPicks();
+                break;
+                case 2:
+                System.out.print("Enter your name: ");
+                String name = sc.nextLine();
+                System.out.print("Enter id: ");
+                id = sc.nextInt();
+                borrow.BorrowItem(name, id);
+                break;
+                case 3:
                     char n1 = '0';
                     System.out.print("1. Add Book\n2. Add Magazine\n3. Add Newspaper\nEnter choice: ");
                     if (sc.hasNext()){
@@ -409,25 +586,50 @@ public static void main(String[] args) {
                         break;}
                     }
                 break;
-                case 2:
+                case 4:
                 System.out.print("Enter id: ");
                 id = sc.nextInt();
                 item.EditItem(id);
                 break;
-                case 3:
+                case 5:
                 System.out.print("Enter id: ");
                 id = sc.nextInt();
                 item.DeleteItem(id);
                 break;
-                case 4:
-                item.ViewAllItems();
+                case 6:
+                    char n4 = '0';
+                    System.out.print("1. Books\n2. Magazines\n3. Newspapers\n4. All items\nEnter choice: ");
+                    if (sc.hasNext()){
+                    n4 = sc.next().charAt(0);
+                    sc.nextLine();
+                    System.out.println();
+                    switch(n4){
+                        case '1':
+                    Book book = new Book();
+                    item.ViewAll(book);
+                        break;
+                        case '2':
+                    Magazine magazine = new Magazine();
+                    item.ViewAll(magazine);
+                        break;
+                        case '3':
+                    Newspaper newspaper = new Newspaper();
+                    item.ViewAll(newspaper);
+                        break;
+                        case '4':
+                    item.ViewAllItems();
+                        break;
+                        default:
+                    System.out.println("Invalid input");
+                        break;}
+                    }
                 break;
-                case 5:
+                case 7:
                 System.out.print("Enter id: ");
                 id = sc.nextInt();
                 item.ViewItemById(id);
                 break;
-                case 6:
+                case 8:
                     System.out.println("Program Exit succesfully!\n");
                     System.exit(0);
                 break;
