@@ -1,4 +1,4 @@
-package com.mycompany.assignment2;
+package com.mycompany.assignment2.Q1;
 
 public class Node<T> {
     public T data;

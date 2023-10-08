@@ -1,10 +1,12 @@
-package com.mycompany.assignment2;
+package com.mycompany.assignment2.Q1;
+import java.util.EmptyStackException;
+import java.util.Scanner;
 
 public class GenericStack<T> {
     private Node<T> top;    
     private int size;
     private T data;
-    public GenericStack(){
+    public <T> GenericStack(){
         size = 0;
         top = null;
     }
@@ -16,7 +18,7 @@ public class GenericStack<T> {
     }
     public T pop(){
         if (isEmpty()){
-            return null;
+            throw new EmptyStackException();
         }
         else {
         T value = (T)top.data;
@@ -25,8 +27,9 @@ public class GenericStack<T> {
         return value;}
     }
     public T peek(){
-        if (isEmpty())
-            return null;
+        if (isEmpty()){
+            throw new EmptyStackException();
+        }
         return (T)top.data;
     }
     public boolean isEmpty(){
@@ -52,5 +55,8 @@ public class GenericStack<T> {
         }
         System.out.println(current.data+"]");
     }
+        else {
+            throw new EmptyStackException();
+        }
     }
 }
