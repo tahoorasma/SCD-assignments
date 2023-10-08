@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FirstNonRepeatingStream {
-    private ArrayList<Character> list = new ArrayList<Character>();
+    private final ArrayList<Character> list = new ArrayList<>();
     int size;
     char [] array;
     FirstNonRepeatingStream(){
@@ -15,7 +15,6 @@ public class FirstNonRepeatingStream {
         size++;
         if (list.contains(c)){
             list.remove(Character.valueOf(c));
-            return;
         }
         else
         list.add(c);
@@ -32,6 +31,7 @@ public class FirstNonRepeatingStream {
     char getFirstNonRepeating(){
         if (!list.isEmpty())
         return list.get(0);
+        else
         return '-';
     }
     public static void main(String[] args) {
